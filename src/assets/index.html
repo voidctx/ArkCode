@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VS Code Web IDE</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="vscode-theme-glass">
+  <div id="app">
+    <!-- Top Header Bar -->
+    <header id="titlebar">
+      <div class="titlebar-left">
+        <div class="titlebar-logo">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+        </div>
+        <nav class="menubar">
+          <div class="menu-item" id="menu-file">File</div>
+          <div class="menu-item" id="menu-edit">Edit</div>
+        </nav>
+      </div>
+
+      <div class="titlebar-center">
+        <span>VS Code Web IDE</span>
+      </div>
+
+      <div class="titlebar-right">
+        <button class="tb-btn" id="tb-terminal-btn" title="Terminal">&gt;_</button>
+        <button class="tb-btn" id="tb-settings-btn" title="Settings">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        </button>
+        <button class="tb-btn" id="tb-search-btn" title="Search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+        <button class="tb-btn" title="Minimize">−</button>
+        <button class="tb-btn" title="Maximize">▢</button>
+        <button class="tb-btn close-btn" title="Close">✕</button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div id="main-container">
+      <!-- Activity Bar (Left Vertical) -->
+      <aside id="activity-bar">
+        <div class="activity-top">
+          <button class="activity-btn" id="act-monitor" title="System Dashboard">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </button>
+
+          <button class="activity-btn active" id="act-explorer" title="Explorer (Ctrl+Shift+E)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </button>
+
+          <button class="activity-btn" id="act-search" title="Search (Ctrl+Shift+F)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="activity-bottom">
+          <button class="activity-btn" id="act-terminal-bottom" title="Terminal">
+            <span class="icon-text">&gt;_</span>
+          </button>
+          <button class="activity-btn" id="act-settings" title="Settings">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Primary Sidebar Container -->
+      <section id="sidebar">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+          <span id="sidebar-title">EXPLORER</span>
+          <div class="sidebar-actions">
+            <button id="btn-new-file" title="New File">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="12" y1="18" x2="12" y2="12"></line>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+              </svg>
+            </button>
+            <button id="btn-new-folder" title="New Folder">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                <line x1="12" y1="11" x2="12" y2="17"></line>
+                <line x1="9" y1="14" x2="15" y2="14"></line>
+              </svg>
+            </button>
+            <button id="btn-refresh-explorer" title="Refresh Explorer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Explorer View -->
+        <div class="sidebar-view active" id="view-explorer">
+          <div class="workspace-selector-box">
+            <select id="workspace-select">
+              <option value="">-- Select Workspace --</option>
+            </select>
+          </div>
+
+          <div id="tree-container" class="tree-root">
+            <div class="empty-tree-message">No workspace selected.<br>Select a workspace from above.</div>
+          </div>
+        </div>
+
+        <!-- Search View -->
+        <div class="sidebar-view" id="view-search">
+          <div class="search-inputs">
+            <div class="input-group">
+              <input type="text" id="search-query" placeholder="Search across workspace...">
+              <div class="search-options">
+                <button class="opt-btn" id="search-opt-case" title="Match Case">Aa</button>
+                <button class="opt-btn" id="search-opt-word" title="Match Whole Word">\b</button>
+                <button class="opt-btn" id="search-opt-regex" title="Use Regex">.*</button>
+              </div>
+            </div>
+            <button class="btn-primary full-width" id="btn-trigger-search">Search Workspace</button>
+          </div>
+
+          <div id="search-results-container">
+            <div class="search-results-summary" id="search-summary">0 matches</div>
+            <div class="search-results-tree" id="search-tree"></div>
+          </div>
+        </div>
+
+        <!-- Settings View -->
+        <div class="sidebar-view" id="view-settings">
+          <div class="settings-form">
+            <h3>Settings &amp; Live Glass Studio</h3>
+
+            <div class="setting-item">
+              <label>Glass Blur (<span id="val-blur">20</span>px)</label>
+              <input type="range" id="glass-blur" min="0" max="40" value="20">
+            </div>
+
+            <div class="setting-item">
+              <label>Glass Transparency (<span id="val-opacity">70</span>%)</label>
+              <input type="range" id="glass-opacity" min="10" max="100" value="70">
+            </div>
+
+            <div class="setting-divider"></div>
+
+            <div class="setting-item">
+              <label>Editor Font Size (px)</label>
+              <input type="number" id="setting-editor-font-size" value="14" min="10" max="32">
+            </div>
+
+            <div class="setting-item">
+              <label>Terminal Font Size (px)</label>
+              <input type="number" id="setting-terminal-font-size" value="13" min="10" max="28">
+            </div>
+
+            <div class="setting-item">
+              <label>Tab Size</label>
+              <input type="number" id="setting-tab-size" value="4" min="1" max="8">
+            </div>
+
+            <div class="setting-item">
+              <label>Active File LSP Port (Auto-detected)</label>
+              <input type="text" id="setting-lsp-target" value="Auto (2087)" readonly>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sidebar Resizer Handle -->
+      <div id="sidebar-resizer"></div>
+
+      <!-- Main Editor Area -->
+      <main id="editor-workspace-area">
+        <section id="editor-container">
+          <!-- Editor Tabs Header -->
+          <div id="tab-bar">
+            <div id="tab-list"></div>
+          </div>
+
+          <!-- Breadcrumbs Bar -->
+          <div id="breadcrumbs-bar">
+            <span class="breadcrumb-item" id="bc-workspace">workspace</span>
+            <span class="breadcrumb-sep">&gt;</span>
+            <span class="breadcrumb-item" id="bc-filename">select a file</span>
+          </div>
+
+          <!-- Main Active Code Canvas / Welcome Screen -->
+          <div id="code-editor-viewport">
+            <!-- Welcome View (Matches Image Exactly) -->
+            <div id="welcome-view" class="welcome-screen">
+              <div class="welcome-center">
+                <div class="welcome-brackets-icon">
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#888888" stroke-width="1.8">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                  </svg>
+                </div>
+                <h1 class="welcome-title">VS Code Web IDE</h1>
+                <p class="welcome-subtitle">Workspaces Manager • Configurable config.json • Pure Modular CSS</p>
+              </div>
+            </div>
+
+            <!-- Active Code Surface -->
+            <div id="code-surface" class="hidden">
+              <div id="line-numbers" class="line-numbers-col"></div>
+              <div id="editor-wrapper">
+                <textarea id="code-textarea" spellcheck="false" autocomplete="off" wrap="off"></textarea>
+                <pre id="code-highlight-overlay" aria-hidden="true"></pre>
+              </div>
+              <div id="minimap" class="minimap-col">
+                <pre id="minimap-content"></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bottom Panel Resizer Handle -->
+        <div id="panel-resizer"></div>
+
+        <!-- Bottom Panel (Matches Image) -->
+        <section id="bottom-panel">
+          <div class="panel-header">
+            <div class="panel-tabs">
+              <button class="panel-tab active" id="ptab-terminal">TERMINAL</button>
+              <button class="panel-tab" id="ptab-stderr">STDERR</button>
+              <button class="panel-tab" id="ptab-output">OUTPUT</button>
+            </div>
+            <div class="panel-actions">
+              <button id="btn-clear-terminal" title="Clear Terminal Output">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <!-- Terminal Content -->
+            <div class="panel-content active" id="pcontent-terminal">
+              <div id="terminal-wrapper">
+                <div id="terminal-screen" tabindex="0"></div>
+              </div>
+            </div>
+
+            <!-- Stderr Content -->
+            <div class="panel-content" id="pcontent-stderr">
+              <pre id="stderr-console">No stderr logs.</pre>
+            </div>
+
+            <!-- Output Content -->
+            <div class="panel-content" id="pcontent-output">
+              <pre id="build-output-console">Project build logs will stream here...</pre>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Status Bar (Matches Image Exactly) -->
+    <footer id="statusbar">
+      <div class="status-left">
+        <span class="status-pill-green" id="status-terminal-badge">&gt;_ Terminal</span>
+        <span class="status-item" id="status-lsp-port">LSP: Auto-Detect Active File</span>
+      </div>
+
+      <div class="status-right">
+        <span class="status-item" id="status-cursor">Ln 1, Col 1</span>
+        <span class="status-item" id="status-encoding">UTF-8</span>
+        <span class="status-pill-glass" id="status-glass-btn">✨ Live Glass Settings</span>
+      </div>
+    </footer>
+
+    <!-- Quick Open Modal -->
+    <div id="quick-open-modal" class="modal-backdrop hidden">
+      <div class="modal-card">
+        <input type="text" id="quick-open-input" placeholder="Type filename to open (Ctrl+P)...">
+        <div id="quick-open-results" class="modal-results-list"></div>
+      </div>
+    </div>
+
+    <!-- Context Menu -->
+    <div id="context-menu" class="context-menu hidden">
+      <div class="cm-item" id="cm-new-file">New File</div>
+      <div class="cm-item" id="cm-new-folder">New Folder</div>
+      <div class="cm-divider"></div>
+      <div class="cm-item" id="cm-rename">Rename</div>
+      <div class="cm-item" id="cm-delete">Delete</div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

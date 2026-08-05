@@ -1,0 +1,169 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * Copyright (C) 2026 xpert0
+ *
+ * This file is part of ArkCode.
+ */
+
+:root {
+  --bg-app: #181818;
+  --bg-titlebar: #1f1f1f;
+  --bg-activitybar: #181818;
+  --bg-sidebar: #181818;
+  --bg-editor: #1f1f1f;
+  --bg-tabs: #181818;
+  --bg-tab-active: #1f1f1f;
+  --bg-tab-hover: #242424;
+  --bg-panel: #181818;
+  --bg-statusbar: #007acc;
+  --bg-gutter: #1f1f1f;
+  --bg-input: #2a2a2a;
+  --bg-hover: rgba(255, 255, 255, 0.08);
+  --bg-selected: rgba(255, 255, 255, 0.12);
+  --fg-main: #cccccc;
+  --fg-muted: #858585;
+  --fg-blue: #3794ff;
+  --fg-green: #4ec9b0;
+  --fg-yellow: #dcdcaa;
+  --fg-orange: #ce9178;
+  --fg-purple: #c586c0;
+  --border-color: #2b2b2b;
+  --accent-blue: #007acc;
+  --accent-blue-hover: #0062a3;
+  --accent-green: #238636;
+  --glass-opacity: 0.25;
+  --glass-blur: 3px;
+  --font-size-code: 14px;
+  --glass-bg: rgb(26 26 30 / var(--glass-opacity));
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.65);
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-code: 'Fira Code', Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--fg-main);
+  background: var(--bg-app);
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  outline: none;
+  border: none;
+  background: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(121, 121, 121, 0.4);
+  border-radius: 5px;
+}
+
+#app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 36px;
+  background: var(--bg-titlebar);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 10px;
+  z-index: 100;
+}
+
+.titlebar-left,
+.titlebar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menubar {
+  display: flex;
+  align-items: center;
+}
+
+.menu-item {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background: var(--bg-hover);
+  color: #fff;
+}
+
+.titlebar-center {
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.action-btn-icon {
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--fg-muted);
+  display: flex;
+  align-items: center;
+}
+
+.action-btn-icon:hover {
+  background: var(--bg-hover);
+  color: #fff;
+}
+
+.window-controls {
+  display: flex;
+  gap: 6px;
+  margin-left: 10px;
+}
+
+.win-btn {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: var(--fg-muted);
+}

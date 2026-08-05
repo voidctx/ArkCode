@@ -1,0 +1,249 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * Copyright (C) 2026 xpert0
+ *
+ * This file is part of ArkCode.
+ */
+
+#editor-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-editor);
+  overflow: hidden;
+  position: relative;
+}
+
+#tabs-bar {
+  height: 35px;
+  background: var(--bg-tabs);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+
+#tabs-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  overflow-x: auto;
+}
+
+.tab-item {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  background: var(--bg-tabs);
+  border-right: 1px solid var(--border-color);
+  font-size: 12px;
+  color: var(--fg-muted);
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.tab-item.active {
+  background: var(--bg-tab-active);
+  color: #fff;
+  border-top: 2px solid var(--accent-blue);
+}
+
+.tab-item .tab-close {
+  margin-left: auto;
+  border-radius: 3px;
+  padding: 2px;
+  opacity: 0;
+}
+
+.tab-item:hover .tab-close {
+  opacity: 1;
+}
+
+#breadcrumbs-bar {
+  height: 22px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  font-size: 11px;
+  color: var(--fg-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+#code-editor-wrapper {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.editor-gutter {
+  width: 50px;
+  height: 100%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--bg-gutter);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  font-family: var(--font-code);
+  font-size: var(--font-size-code);
+  line-height: 21px;
+  color: var(--fg-muted);
+  text-align: right;
+  padding-right: 10px;
+  padding-top: 6px;
+  user-select: none;
+}
+
+.editor-container {
+  flex: 1;
+  position: relative;
+  overflow: auto;
+}
+
+#code-textarea,
+.syntax-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 6px 12px;
+  font-family: var(--font-code);
+  font-size: var(--font-size-code);
+  line-height: 21px;
+  tab-size: 4;
+  white-space: pre;
+  overflow: auto;
+}
+
+#code-textarea {
+  color: transparent;
+  background: transparent;
+  caret-color: #fff;
+  resize: none;
+  z-index: 2;
+}
+
+.syntax-overlay {
+  z-index: 1;
+  pointer-events: none;
+  color: var(--fg-main);
+}
+
+.empty-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--fg-muted);
+  z-index: 5;
+  background: var(--bg-editor);
+}
+
+.lsp-popup {
+  position: absolute;
+  z-index: 999;
+  background: #252526;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  max-height: 180px;
+  overflow-y: auto;
+  min-width: 180px;
+}
+
+.lsp-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-family: var(--font-code);
+  color: #cccccc;
+  cursor: pointer;
+}
+
+.lsp-item:hover,
+.lsp-item.active {
+  background: var(--accent-blue);
+  color: #fff;
+}
+
+.lsp-kind {
+  font-size: 10px;
+  opacity: 0.7;
+  font-family: var(--font-ui);
+}
+
+.token-keyword {
+  color: var(--fg-purple);
+  font-weight: 500;
+}
+
+.token-string {
+  color: var(--fg-orange);
+}
+
+.token-comment {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.token-function {
+  color: var(--fg-yellow);
+}
+
+.token-number {
+  color: #b5cea8;
+}
+
+#statusbar {
+  height: 24px;
+  background: var(--bg-statusbar);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  color: #fff;
+  font-size: 12px;
+  z-index: 100;
+}
+
+.statusbar-left,
+.statusbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.status-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.status-remote {
+  background: #16825d;
+  padding: 2px 8px;
+  font-weight: 600;
+}
+
+.status-glass-badge {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-weight: 600;
+}

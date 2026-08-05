@@ -1,0 +1,23 @@
+{
+  "projects_folder": "projects",
+  "lsp": {
+    "rust": 2087,
+    "javascript": 2088,
+    "typescript": 2088,
+    "python": 2089,
+    "c": 2090,
+    "cpp": 2090,
+    "html": 2091,
+    "css": 2091
+  },
+  "language_extensions": {
+    "rust": ["rs"],
+    "javascript": ["js", "jsx"],
+    "typescript": ["ts", "tsx"],
+    "python": ["py"],
+    "c": ["c", "h"],
+    "cpp": ["cpp", "hpp", "cc", "cxx"],
+    "html": ["html", "htm"],
+    "css": ["css", "scss"]
+  }
+}
