@@ -9,7 +9,7 @@ use std::net::SocketAddr;
 
 pub async fn start_server(port: u16) -> Result<(), Box<dyn std::error::Error>> {
     let app = create_router();
-    let addr = SocketAddr::from(([127, 0, 0, 1], port));    
+    let addr = SocketAddr::from(([0, 0, 0, 0], port));    
     println!("ArkCode WebIDE running at http://localhost:{}", port);
     let listener = tokio::net::TcpListener::bind(addr).await?;
     axum::serve(listener, app).await?;
