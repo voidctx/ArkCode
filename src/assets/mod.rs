@@ -4,13 +4,13 @@
 //
 // This file is part of ArkCode.
 
-pub static INDEX_HTML: &str = include_str!("../static/index.html");
-pub static APP_JS: &str = include_str!("../static/app.js");
-pub static MAIN_CSS: &str = include_str!("../static/styles/main.css");
-pub static BASE_CSS: &str = include_str!("../static/styles/base.css");
-pub static EDITOR_CSS: &str = include_str!("../static/styles/editor.css");
-pub static GLASS_CSS: &str = include_str!("../static/styles/glass.css");
-pub static SIDEBAR_CSS: &str = include_str!("../static/styles/sidebar.css");
+pub static INDEX_HTML: &str = include_str!("./index.html");
+pub static APP_JS: &str = include_str!("./app.js");
+pub static MAIN_CSS: &str = include_str!("./styles/main.css");
+pub static BASE_CSS: &str = include_str!("./styles/base.css");
+pub static EDITOR_CSS: &str = include_str!("./styles/editor.css");
+pub static GLASS_CSS: &str = include_str!("./styles/glass.css");
+pub static SIDEBAR_CSS: &str = include_str!("./styles/sidebar.css");
 
 pub fn get_asset(path: &str) -> Option<(&'static str, &'static str)> {
     match path {
