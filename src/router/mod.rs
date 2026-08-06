@@ -145,10 +145,10 @@ async fn handle_ws_session(socket: WebSocket, state: SharedState) {
 
                     "workspace:create" => {
                         let name = payload.get("name").and_then(|v| v.as_str()).unwrap_or("");
-                        let desc = payload.get("description").and_then(|v| v.as_str()).unwrap_or("");
+                        let build = payload.get("build").and_then(|v| v.as_str()).unwrap_or("");
                         let ls_type = payload.get("lsType").or_else(|| payload.get("ls_type")).and_then(|v| v.as_bool()).unwrap_or(true);
 
-                        if let Ok(config) = workspace::create_workspace(name, desc, ls_type) {
+                        if let Ok(config) = workspace::create_workspace(name, build, ls_type) {
                             {
                                 let mut lock = state.lock().unwrap();
                                 lock.active_workspace = config.name.clone();

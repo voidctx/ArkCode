@@ -11,7 +11,6 @@ use std::path::{Path, PathBuf};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ProjectConfig {
     pub name: String,
-    pub description: String,
     pub build: String,
     pub ls_type: bool,
     pub path: String,
@@ -28,7 +27,6 @@ impl ProjectConfig {
 
         let content = fs::read_to_string(&proj_file).ok()?;
         let mut name = String::new();
-        let mut description = String::new();
         let mut build = String::new();
         let mut ls_type = true;
 
@@ -42,7 +40,6 @@ impl ProjectConfig {
                 let val = val.trim();
                 match key {
                     "name" => name = val.to_string(),
-                    "description" => description = val.to_string(),
                     "build" => build = val.to_string(),
                     "ls_type" | "lsType" => {
                         let lower = val.to_lowercase();
@@ -59,7 +56,6 @@ impl ProjectConfig {
 
         Some(ProjectConfig {
             name,
-            description,
             build,
             ls_type,
             path: dir.to_string_lossy().to_string(),
@@ -97,7 +93,7 @@ pub fn scan_workspaces() -> Vec<ProjectConfig> {
 
 pub fn create_workspace(
     name: &str,
-    description: &str,
+    build: &str,
     ls_type: bool,
 ) -> Result<ProjectConfig, String> {
     let name_str = if name.trim().is_empty() {
@@ -110,8 +106,8 @@ pub fn create_workspace(
     fs::create_dir_all(proj_dir.join("src")).map_err(|e| e.to_string())?;
 
     let proj_content = format!(
-        "name={}\ndescription={}\nbuild=cargo check\nls_type={}\n",
-        name_str, description, ls_type
+        "name={}\nbuild={}\nls_type={}\n",
+        name_str, build, ls_type
     );
     fs::write(proj_dir.join(".proj"), proj_content).map_err(|e| e.to_string())?;
 

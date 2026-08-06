@@ -589,7 +589,6 @@
       closeModal();
       els.cfgProjName.value = '';
       els.cfgProjBuild.value = '';
-      els.cfgProjLsUrl.value = '';
     });
   }
 
@@ -953,13 +952,11 @@
     if (state.openFiles.length === 0) {
       els.emptyState.classList.remove('hidden');
       els.breadcrumbPath.textContent = 'workspace';
-      els.windowTitle.textContent = 'VS Code Web IDE';
     } else {
       els.emptyState.classList.add('hidden');
       const active = state.openFiles.find(f => f.path === state.activeFilePath);
       if (active) {
         els.breadcrumbPath.textContent = `workspace > ${active.path}`;
-        els.windowTitle.textContent = `${active.name} - VS Code Web IDE`;
       }
     }
   }
