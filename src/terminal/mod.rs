@@ -12,21 +12,14 @@ pub fn execute_shell_command<P: AsRef<Path>>(
     cwd: P,
     command: &str,
 ) -> io::Result<(String, String)> {
-    let mut path_env = std::env::var("PATH").unwrap_or_default();
-    if let Ok(user_profile) = std::env::var("USERPROFILE") {
-        path_env = format!("{}\\.cargo\\bin;{}", user_profile, path_env);
-    }
-
     let out = if cfg!(windows) {
         Command::new("cmd")
             .args(["/C", command])
-            .env("PATH", &path_env)
             .current_dir(cwd)
             .output()?
     } else {
         Command::new("sh")
             .args(["-c", command])
-            .env("PATH", &path_env)
             .current_dir(cwd)
             .output()?
     };

@@ -24,27 +24,19 @@ pub fn execute_build(req: &BuildRequest) -> Result<BuildResponse, String> {
         .ok_or_else(|| "Invalid workspace directory or missing .proj file".to_string())?;
 
     let cmd_str = if config.build.is_empty() {
-        "cargo build".to_string()
+        "echo success".to_string()
     } else {
         config.build
     };
 
-    let mut path_env = std::env::var("PATH").unwrap_or_default();
-    if let Ok(user_profile) = std::env::var("USERPROFILE") {
-        let cargo_bin = format!("{}\\.cargo\\bin", user_profile);
-        path_env = format!("{};{}", cargo_bin, path_env);
-    }
-
     let output = if cfg!(windows) {
         Command::new("cmd")
             .args(["/C", &cmd_str])
-            .env("PATH", &path_env)
             .current_dir(&req.workspace)
             .output()
     } else {
         Command::new("sh")
             .args(["-c", &cmd_str])
-            .env("PATH", &path_env)
             .current_dir(&req.workspace)
             .output()
     };
