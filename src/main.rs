@@ -18,10 +18,13 @@ pub mod settings;
 pub mod terminal;
 pub mod workspace;
 
+#[cfg(feature = "threading")]
+pub mod threading;
+
 use std::env;
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+#[cfg(feature = "threading")]
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Vec<String> = env::args().collect();
     let port: u16 = args
         .get(1)
@@ -29,6 +32,22 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .unwrap_or(8080);
     let _ = std::fs::create_dir_all("projects");
     println!("Starting ArkCode WebIDE on port {}...", port);
-    http::start_server(port).await?;
-    Ok(())
+
+    let rt = crate::threading::runtime::Runtime::new()?;
+    rt.block_on(async move {
+        http::start_server(port).await
+    })
+}
+
+#[cfg(not(feature = "threading"))]
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let args: Vec<String> = env::args().collect();
+    let port: u16 = args
+        .get(1)
+        .and_then(|p| p.parse().ok())
+        .unwrap_or(8080);
+    let _ = std::fs::create_dir_all("projects");
+    println!("Starting ArkCode WebIDE on port {}...", port);
+
+    http::start_server(port)
 }
