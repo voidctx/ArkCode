@@ -35,8 +35,12 @@ pub async fn query_lsp_server(port: u16, word: &str, lang: &str) -> Option<Vec<V
     use crate::threading::net::TcpStream;
     use crate::threading::time::timeout;
 
-    let stream_res = timeout(Duration::from_millis(200), TcpStream::connect(("127.0.0.1", port))).await;
-    let mut stream = stream_res.ok()?.ok()?;
+    // Connect to LSP server (trying IPv6 loopback [::1] first, falling back to IPv4 127.0.0.1)
+    let stream_res = match timeout(Duration::from_millis(150), TcpStream::connect(("::1", port))).await {
+        Ok(Ok(s)) => Ok(s),
+        _ => timeout(Duration::from_millis(200), TcpStream::connect(("127.0.0.1", port))).await.ok()?,
+    };
+    let mut stream = stream_res.ok()?;
 
     let json_req = serde_json::json!({
         "jsonrpc": "2.0",
@@ -50,7 +54,7 @@ pub async fn query_lsp_server(port: u16, word: &str, lang: &str) -> Option<Vec<V
 
     let payload = json_req.to_string();
     let http_req = format!(
-        "POST /lsp HTTP/1.1\r\nHost: 127.0.0.1:{}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+        "POST /lsp HTTP/1.1\r\nHost: localhost:{}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
         port, payload.len(), payload
     );
 
@@ -78,8 +82,18 @@ pub fn query_lsp_server(port: u16, word: &str, lang: &str) -> Option<Vec<Value>>
     use std::io::{Read, Write};
     use std::net::{SocketAddr, TcpStream};
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], port));
-    let mut stream = TcpStream::connect_timeout(&addr, Duration::from_millis(200)).ok()?;
+    let mut stream = TcpStream::connect_timeout(
+        &SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 1], port)),
+        Duration::from_millis(150),
+    )
+    .or_else(|_| {
+        TcpStream::connect_timeout(
+            &SocketAddr::from(([127, 0, 0, 1], port)),
+            Duration::from_millis(200),
+        )
+    })
+    .ok()?;
+
     let _ = stream.set_read_timeout(Some(Duration::from_millis(300)));
     let _ = stream.set_write_timeout(Some(Duration::from_millis(200)));
 
@@ -95,7 +109,7 @@ pub fn query_lsp_server(port: u16, word: &str, lang: &str) -> Option<Vec<Value>>
 
     let payload = json_req.to_string();
     let http_req = format!(
-        "POST /lsp HTTP/1.1\r\nHost: 127.0.0.1:{}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+        "POST /lsp HTTP/1.1\r\nHost: localhost:{}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
         port, payload.len(), payload
     );
 

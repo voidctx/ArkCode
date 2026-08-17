@@ -80,6 +80,38 @@ mod tests {
     }
 
     #[test]
+    fn test_runtime_ipv6_tcp_echo() {
+        let rt = runtime::Runtime::new().unwrap();
+        rt.block_on(async {
+            let bind_res = match TcpListener::bind("[::1]:0").await {
+                Ok(l) => Ok(l),
+                Err(_) => TcpListener::bind(("::1", 0)).await,
+            };
+            if let Ok(listener) = bind_res {
+                let addr = listener.local_addr().unwrap();
+
+                let server = spawn(async move {
+                    let (mut stream, _) = listener.accept().await.unwrap();
+                    let mut buf = [0u8; 16];
+                    let n = stream.read(&mut buf).await.unwrap();
+                    stream.write_all(&buf[..n]).await.unwrap();
+                });
+
+                let client = spawn(async move {
+                    let mut stream = TcpStream::connect(addr).await.unwrap();
+                    stream.write_all(b"ipv6 echo").await.unwrap();
+                    let mut resp = vec![0u8; 9];
+                    stream.read_exact(&mut resp).await.unwrap();
+                    assert_eq!(&resp[..], b"ipv6 echo");
+                });
+
+                server.await.unwrap();
+                client.await.unwrap();
+            }
+        });
+    }
+
+    #[test]
     fn test_oneshot_channel() {
         let rt = runtime::Runtime::new().unwrap();
         rt.block_on(async {
