@@ -159,3 +159,52 @@ jobs:
             artifacts/SHA256SUMS
           prerelease: ${{ needs.validate.outputs.is_prerelease == 'true' }}
           generate_release_notes: true
+  
+  publish:
+    name: Dispatch Pacman Publication
+    needs: [validate, build, release]
+    if: >-
+      needs.validate.outputs.is_prerelease != 'true' &&
+      startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check stable release tag format
+        id: tagcheck
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          if [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.0$ ]]; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+            echo "Accepted stable release tag: $RELEASE_TAG"
+          else
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping Pacman publication for tag: $RELEASE_TAG"
+          fi
+
+      - name: Dispatch package publication
+        if: steps.tagcheck.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.PACMAN_REPO_TOKEN }}
+          SOURCE_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          REPO_NAME="${SOURCE_REPO##*/}"
+          PKGNAME="$(printf '%s' "$REPO_NAME" | tr '[:upper:]' '[:lower:]')"
+          if [[ ! "$PKGNAME" =~ ^[a-z0-9][a-z0-9@._+-]*$ ]]; then
+            echo "::error::Invalid derived package name: $PKGNAME"
+            exit 1
+          fi
+          gh api \
+            --method POST \
+            "repos/voidctx/repo/dispatches" \
+            -f event_type='publish-pacman-package' \
+            -f "client_payload[source_repo]=$SOURCE_REPO" \
+            -f "client_payload[tag]=$RELEASE_TAG" \
+            -f "client_payload[name]=$PKGNAME"
+          echo "Pacman publication dispatched."
