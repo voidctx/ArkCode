@@ -40,23 +40,23 @@ jobs:
         include:
           - target: x86_64-unknown-linux-musl
             runner: ubuntu-latest
-            asset_name: ArkCode-linux-x86_64
+            asset_name: arkcode-linux-x86_64
             use_cross: true
           - target: aarch64-unknown-linux-musl
             runner: ubuntu-latest
-            asset_name: ArkCode-linux-aarch64
+            asset_name: arkcode-linux-aarch64
             use_cross: true
           - target: x86_64-pc-windows-msvc
             runner: windows-latest
-            asset_name: ArkCode-windows-x86_64.exe
+            asset_name: arkcode-windows-x86_64.exe
             use_cross: false
           - target: aarch64-pc-windows-msvc
             runner: windows-latest
-            asset_name: ArkCode-windows-aarch6464.exe
+            asset_name: arkcode-windows-aarch6464.exe
             use_cross: false
           - target: aarch64-apple-darwin
             runner: macos-latest
-            asset_name: ArkCode-macos-aarch64
+            asset_name: arkcode-macos-aarch64
             use_cross: false
 
     steps:
@@ -144,18 +144,18 @@ jobs:
         shell: bash
         run: |
           cd artifacts
-          sha256sum ArkCode-linux-x86_64 ArkCode-linux-aarch64 ArkCode-windows-x86_64.exe ArkCode-windows-aarch6464.exe ArkCode-macos-aarch64 | sort -k2 > SHA256SUMS
+          sha256sum arkcode-linux-x86_64 arkcode-linux-aarch64 arkcode-windows-x86_64.exe arkcode-windows-aarch6464.exe arkcode-macos-aarch64 | sort -k2 > SHA256SUMS
           cat SHA256SUMS
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            artifacts/ArkCode-linux-x86_64
-            artifacts/ArkCode-linux-aarch64
-            artifacts/ArkCode-windows-x86_64.exe
-            artifacts/ArkCode-windows-aarch6464.exe
-            artifacts/ArkCode-macos-aarch64
+            artifacts/arkcode-linux-x86_64
+            artifacts/arkcode-linux-aarch64
+            artifacts/arkcode-windows-x86_64.exe
+            artifacts/arkcode-windows-aarch6464.exe
+            artifacts/arkcode-macos-aarch64
             artifacts/SHA256SUMS
           prerelease: ${{ needs.validate.outputs.is_prerelease == 'true' }}
           generate_release_notes: true
